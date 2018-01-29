@@ -10,3 +10,14 @@ C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\M
 C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.exe
 C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.pdb
 C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.Form3.resources
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\bin\Debug\My_Menu.exe.config
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\obj\Debug\My_Menu.exe
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\obj\Debug\My_Menu.pdb
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\bin\Debug\My_Menu.exe
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\bin\Debug\My_Menu.pdb
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\obj\Debug\My_Menu.csprojResolveAssemblyReference.cache
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\obj\Debug\My_Menu.Properties.Resources.resources
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\obj\Debug\My_Menu.csproj.GenerateResource.Cache
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\obj\Debug\My_Menu.MainMenu.resources
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\obj\Debug\My_Menu.Login.resources
+C:\Users\wangzhiqiang\Documents\07-Workbase\VS-C#\CanteenFaceTerminal\school-canteen\My_Menu\My_Menu\obj\Debug\My_Menu.Recharge.resources

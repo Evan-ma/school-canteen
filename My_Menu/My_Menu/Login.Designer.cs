@@ -1,6 +1,6 @@
 ﻿namespace My_Menu
 {
-    partial class Form2
+    partial class Login
     {
         /// <summary>
         /// Required designer variable.

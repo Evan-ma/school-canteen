@@ -1,6 +1,6 @@
 ﻿namespace My_Menu
 {
-    partial class Form3
+    partial class Recharge
     {
         /// <summary>
         /// Required designer variable.
@@ -40,14 +40,14 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // Form3
+            // Recharge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(836, 546);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "Form3";
-            this.Text = "Form3";
+            this.Name = "Recharge";
+            this.Text = "充值";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 

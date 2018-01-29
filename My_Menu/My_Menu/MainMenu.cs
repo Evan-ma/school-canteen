@@ -10,16 +10,16 @@ using System.Windows.Forms;
 
 namespace My_Menu
 {
-    public partial class Form1 : Form
+    public partial class MainMenu : Form
     {
-        public Form1(Form2 form2)
+        public MainMenu(Login form2)
         {
             InitializeComponent();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            new Form3(this).Show();
+            new Recharge(this).Show();
             this.Hide();
         }
     }

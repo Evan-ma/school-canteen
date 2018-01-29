@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace My_Menu
 {
-    public partial class Form3 : Form
+    public partial class Recharge : Form
     {
-        public Form3(Form1 form1)
+        public Recharge(MainMenu form1)
         {
             InitializeComponent();
         }

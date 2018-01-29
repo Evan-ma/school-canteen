@@ -1,6 +1,6 @@
 ﻿namespace My_Menu
 {
-    partial class Form1
+    partial class MainMenu
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -97,7 +97,7 @@
             this.button6.Text = "系统设置";
             this.button6.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -108,8 +108,8 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
-            this.Text = "菜单";
+            this.Name = "MainMenu";
+            this.Text = "主菜单";
             this.ResumeLayout(false);
 
         }

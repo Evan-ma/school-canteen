@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace My_Menu
 {
-    public partial class Form2 : Form
+    public partial class Login : Form
     {
-        public Form2()
+        public Login()
         {
             InitializeComponent();
         }
@@ -27,7 +27,7 @@ namespace My_Menu
             if(textBox1.Text=="123")
             {
                 //MessageBox.Show("登陆成功！", "登陆成功");
-                new Form1(this).Show();
+                new MainMenu(this).Show();
                 this.Hide();
             }
             else MessageBox.Show("密码错误，请重新输入！", "登陆出错");
