@@ -1,0 +1,12 @@
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\bin\Debug\My_Menu.exe.config
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\bin\Debug\My_Menu.exe
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\bin\Debug\My_Menu.pdb
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.csprojResolveAssemblyReference.cache
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.Form1.resources
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.Form2.resources
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.Properties.Resources.resources
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.csproj.GenerateResource.Cache
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.csproj.CoreCompileInputs.cache
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.exe
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.pdb
+C:\Users\NingFeng\Desktop\人脸识别项目\My_Menu\My_Menu\My_Menu\obj\Debug\My_Menu.Form3.resources
