@@ -46,6 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account_management.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Account_management.Designer.cs">
+      <DependentUpon>Account_management.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data_management.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Data_management.designer.cs">
+      <DependentUpon>Data_management.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +78,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Account_management.resx">
+      <DependentUpon>Account_management.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data_management.resx">
+      <DependentUpon>Data_management.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
