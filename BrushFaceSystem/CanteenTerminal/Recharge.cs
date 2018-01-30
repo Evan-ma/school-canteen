@@ -14,7 +14,13 @@ namespace My_Menu
     {
         public Recharge(MainMenu form1)
         {
-            InitializeComponent();
+            InitializeComponent();  
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+            Close();
         }
     }
 }
