@@ -37,10 +37,15 @@ namespace My_Menu
         {
 
         }
-
         private void button5_Click(object sender, EventArgs e)
         {
             new Data_management().Show();
+            this.Visible = false;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new brushFace().Show();
             this.Visible = false;
         }
     }

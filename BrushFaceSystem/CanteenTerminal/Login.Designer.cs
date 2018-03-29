@@ -46,14 +46,15 @@
             // 
             this.textBox1.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textBox1.Location = new System.Drawing.Point(299, 136);
-            this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(241, 40);
+            this.textBox1.Size = new System.Drawing.Size(241, 44);
             this.textBox1.TabIndex = 1;
+            this.textBox1.UseSystemPasswordChar = true;
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(413, 258);
+            this.button1.Location = new System.Drawing.Point(484, 289);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(127, 44);
             this.button1.TabIndex = 2;
@@ -61,7 +62,7 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // Form2
+            // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -69,7 +70,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
-            this.Name = "Form2";
+            this.Name = "Login";
             this.Text = "管理员登陆";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);

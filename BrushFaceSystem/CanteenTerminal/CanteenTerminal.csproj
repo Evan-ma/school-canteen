@@ -32,9 +32,35 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Emgu.CV.World, Version=3.2.0.2682, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Emgu.CV.World.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,12 +78,24 @@
     <Compile Include="Account_management.Designer.cs">
       <DependentUpon>Account_management.cs</DependentUpon>
     </Compile>
+    <Compile Include="brushFace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="brushFace.Designer.cs">
+      <DependentUpon>brushFace.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data_management.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Data_management.designer.cs">
       <DependentUpon>Data_management.cs</DependentUpon>
     </Compile>
+    <Compile Include="FaceCamera.cs" />
+    <Compile Include="FaceDetectSDK.cs" />
+    <Compile Include="FaceDetectSDK30.cs" />
+    <Compile Include="FaceDictionary.cs" />
+    <Compile Include="FaceInfo.cs" />
+    <Compile Include="FaceRecgnize.cs" />
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +118,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Account_management.resx">
       <DependentUpon>Account_management.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="brushFace.resx">
+      <DependentUpon>brushFace.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Data_management.resx">
       <DependentUpon>Data_management.cs</DependentUpon>
@@ -115,6 +156,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EVAL_x64_Accuracy.dll" />
+    <Content Include="EVAL_x64_Accuracy35.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
