@@ -23,14 +23,17 @@ namespace My_Menu
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             InitializeComponent();
             Sqlcreate();
+            loaddll();
         }
         FaceCamera _faceCamera = new FaceCamera();
-        SpeechSynthesizer speak = new SpeechSynthesizer();
+
         List<FaceInfoBase> facelist_m = new List<FaceInfoBase>();
         List<FaceInfoBase> facelist_f = new List<FaceInfoBase>();
+        FaceEvent fevent = null;
+        SpeechSynthesizer speak = new SpeechSynthesizer();
+
 
         //初始化人脸识别库
-       
         private void loaddll()
         {
             int ret = _faceCamera.Init();
@@ -45,7 +48,7 @@ namespace My_Menu
                 System.Environment.Exit(0);
             }
         }
-        private void Sqlcreate()
+        private void Sqlcreate() //数据库初始化
         {
             FaceInfoBase.MakeTable();
             UserInfo.MakeTable();
@@ -53,6 +56,7 @@ namespace My_Menu
             facelist_m = FaceInfoBase.GetList(1);
             facelist_f = FaceInfoBase.GetList(0);
         }
+
         private void startUp_Click(object sender, EventArgs e)
         {
             if(this.startUp.Text != "停止")
@@ -64,7 +68,8 @@ namespace My_Menu
             _faceCamera.FaceHandler += onFaceHandler;
             _faceCamera.Start();
             _faceCamera.PicBoxShotFace = realFace;//实时人脸
-            //_faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneFindSimiler;
+
+            _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneFindSimiler;
             
             } else {
                 try
@@ -82,7 +87,7 @@ namespace My_Menu
                 }
             }
         }
-        FaceEvent fevent = new FaceEvent();
+    
         protected void onFaceHandler(FaceEvent e)
         {
             switch (e.type)
@@ -118,22 +123,23 @@ namespace My_Menu
                 }
                 if (yaotou >= 3)
                 {
-                    speak.Speak("付款取消，欢迎下次光临");
+                    Thread t = new Thread(() => speaker("付款取消，欢迎下次光临"));
+                    t.Start();
                     yaotou = 0;
                     _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneFindSimiler;
                 }
                 if(diantou >= 3)
                 {
-                    speak.Speak("支付成功，欢迎下次光临");
+                    Thread t = new Thread(() => speaker("支付成功，欢迎下次光临"));
+                    t.Start();
                     diantou = 0;
                     _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneFindSimiler;
                 }
-
                 System.Windows.Forms.Timer tim = new System.Windows.Forms.Timer(); 
             };
             this.BeginInvoke(d);
         }
-
+  
         private void brushFace_FormClosed(object sender, FormClosedEventArgs e)
         {
             speak.Dispose();
@@ -205,12 +211,13 @@ namespace My_Menu
             }
             Getuid(fevent);
             _faceCamera.FaceCmd = FaceCamera.FaceCommand.NodShakeDetect;     //转换为检测角度模式
-            speak.Speak("您好，   付款请点头。    取消付款请摇头");
-
+            Thread t = new Thread(() => speaker("您好，   付款请点头。    取消付款请摇头"));
+            t.Start();
         }
         FaceRecgnize fr = new FaceRecgnize();
         private void Getuid(FaceEvent e)
         {
+            
             FaceInfo f = e.faceinfo;
             if (f.gender.ToString()=="男")
             {
@@ -234,7 +241,7 @@ namespace My_Menu
             }
 
         }
-        UserInfo uinfo = new UserInfo();
+        UserInfo uinfo = new UserInfo();//获取数据库中信息
         private void Getinfo(int? uid)
         {
             UserInfo.Get(uid.Value);
@@ -242,6 +249,14 @@ namespace My_Menu
                 "\r学号：" +uinfo.usernumber+
                 "\r性别：" +uinfo.gender+
                 "\r账户余额："+uinfo.money;
+   
+        }
+
+
+        private void speaker(string yuyin)
+        {
+            speak.Speak(yuyin);
         }
     }
+  
 }
