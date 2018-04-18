@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.realTime = new System.Windows.Forms.PictureBox();
             this.realFace = new System.Windows.Forms.PictureBox();
             this.stuFace = new System.Windows.Forms.PictureBox();
@@ -39,6 +40,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.but_close = new System.Windows.Forms.Button();
+            this.label_NodShakeDetectResult = new System.Windows.Forms.Label();
+            this.stuinfo = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.realTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.realFace)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stuFace)).BeginInit();
@@ -51,7 +55,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.realTime.Location = new System.Drawing.Point(12, 78);
             this.realTime.Name = "realTime";
-            this.realTime.Size = new System.Drawing.Size(600, 337);
+            this.realTime.Size = new System.Drawing.Size(743, 337);
             this.realTime.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.realTime.TabIndex = 0;
             this.realTime.TabStop = false;
@@ -65,6 +69,7 @@
             this.realFace.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.realFace.TabIndex = 1;
             this.realFace.TabStop = false;
+            this.realFace.Paint += new System.Windows.Forms.PaintEventHandler(this.realFace_Paint);
             // 
             // stuFace
             // 
@@ -112,7 +117,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold);
-            this.label4.Location = new System.Drawing.Point(816, 343);
+            this.label4.Location = new System.Drawing.Point(826, 382);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(213, 33);
             this.label4.TabIndex = 6;
@@ -168,11 +173,35 @@
             this.but_close.UseVisualStyleBackColor = true;
             this.but_close.Click += new System.EventHandler(this.but_close_Click);
             // 
+            // label_NodShakeDetectResult
+            // 
+            this.label_NodShakeDetectResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_NodShakeDetectResult.AutoSize = true;
+            this.label_NodShakeDetectResult.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold);
+            this.label_NodShakeDetectResult.Location = new System.Drawing.Point(1030, 332);
+            this.label_NodShakeDetectResult.Name = "label_NodShakeDetectResult";
+            this.label_NodShakeDetectResult.Size = new System.Drawing.Size(114, 33);
+            this.label_NodShakeDetectResult.TabIndex = 11;
+            this.label_NodShakeDetectResult.Text = "请点头";
+            // 
+            // stuinfo
+            // 
+            this.stuinfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.stuinfo.AutoSize = true;
+            this.stuinfo.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold);
+            this.stuinfo.Location = new System.Drawing.Point(903, 450);
+            this.stuinfo.Name = "stuinfo";
+            this.stuinfo.Size = new System.Drawing.Size(100, 33);
+            this.stuinfo.TabIndex = 12;
+            this.stuinfo.Text = "     ";
+            // 
             // brushFace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1355, 637);
+            this.Controls.Add(this.stuinfo);
+            this.Controls.Add(this.label_NodShakeDetectResult);
             this.Controls.Add(this.but_close);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label5);
@@ -210,5 +239,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button but_close;
+        private System.Windows.Forms.Label label_NodShakeDetectResult;
+        private System.Windows.Forms.Label stuinfo;
+        private System.Windows.Forms.Timer timer1;
     }
 }

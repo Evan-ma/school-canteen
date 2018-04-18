@@ -235,6 +235,7 @@ namespace My_Menu
                 onFaceShotAndFind(null, etype);
         }
 
+        public bool get = false;
 
         /***************************内部视频线程*****************************/
         private void ProcessFrame(object sender, EventArgs arg)
@@ -284,6 +285,7 @@ namespace My_Menu
                             PicBoxRealTime.Image = Frame.Bitmap;
                         };
                         PicBoxRealTime.Invoke(d);
+                        get = true;
                     }
                 }
             }
@@ -409,7 +411,6 @@ namespace My_Menu
                     updateFullViewBmp(f);
                     //更新抓拍特写照片
                     updateShotFace(f);
-
                     //数据库检索并显示检索到的照片
                     int score = 0, uid = 0;
                     FaceData fd = null;

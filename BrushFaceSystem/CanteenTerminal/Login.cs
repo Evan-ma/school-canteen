@@ -41,13 +41,13 @@ namespace My_Menu
                 button1_Click(null,null);
         }
         /*更改配置文件
-Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-config.AppSettings.Settings["password"].Value ="10000";
-config.Save(ConfigurationSaveMode.Modified);
-//强制重新载入配置文件的ConnectionStrings配置节   
-ConfigurationManager.RefreshSection("appSettings");
-MessageBox.Show("保存成功！");
-*/
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        config.AppSettings.Settings["password"].Value ="10000";
+        config.Save(ConfigurationSaveMode.Modified);
+        //强制重新载入配置文件的ConnectionStrings配置节   
+        ConfigurationManager.RefreshSection("appSettings");
+        MessageBox.Show("保存成功！");
+         */
     }
 }
 
