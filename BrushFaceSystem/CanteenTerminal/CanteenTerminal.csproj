@@ -88,6 +88,7 @@
     <Compile Include="brushFace.Designer.cs">
       <DependentUpon>brushFace.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess.cs" />
     <Compile Include="Data_management.cs">
       <SubType>Form</SubType>
     </Compile>

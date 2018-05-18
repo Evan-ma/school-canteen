@@ -13,19 +13,13 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FaceSDK;
 
 namespace My_Menu
 {
     public partial class brushFace : Form
     {
-        public brushFace()
-        {
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            InitializeComponent();
-            Sqlcreate();
-            loaddll();
-        }
-        FaceCamera _faceCamera = new FaceCamera();
+        FaceCamera _faceCamera;
 
         List<FaceInfoBase> facelist_m = new List<FaceInfoBase>();
         List<FaceInfoBase> facelist_f = new List<FaceInfoBase>();
@@ -33,21 +27,27 @@ namespace My_Menu
         SpeechSynthesizer speak = new SpeechSynthesizer();
 
 
-        //初始化人脸识别库
-        private void loaddll()
+        public brushFace()
         {
-            int ret = _faceCamera.Init();
-            if (ret == -1)
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            InitializeComponent();
+            _faceCamera = FaceCamera.Instance;
+            if (!_faceCamera.Open("0", 640, 480))
             {
-                MessageBox.Show("面部识别库初始化失败！" + Environment.NewLine + "点击确定关闭程序。", "人脸库失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                System.Environment.Exit(0);
+                MessageBox.Show("相机打开失败！\n" + "请确认相机硬件连接。",
+                    "相机启动失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            else if (ret == -2)
-            {
-                MessageBox.Show("相机打开失败！" + Environment.NewLine + "点击确定关闭程序。", "相机失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                System.Environment.Exit(0);
-            }
+            //设置人脸相机参数
+            _faceCamera.PicBoxRealTime = realTime;//指定实时图像的图片框
+            _faceCamera.PicBoxShotFace = pictureBox_shotface;//实时人脸
+            _faceCamera.PicBoxFoundPic = pictureBox_dicFace;
+
+            _faceCamera.FaceHandler += onFaceHandler;
+            _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneAndFind;
+            _faceCamera.Start();
         }
+
         private void Sqlcreate() //数据库初始化
         {
             FaceInfoBase.MakeTable();
@@ -59,39 +59,42 @@ namespace My_Menu
 
         private void startUp_Click(object sender, EventArgs e)
         {
-            if(this.startUp.Text != "停止")
-            {          
+            //if(this.startUp.Text != "停止")
+            //{          
  
-            this.startUp.Text = "停止";
-            //设置人脸相机参数
-            _faceCamera.PicBoxRealTime = realTime;//指定实时图像的图片框
-            _faceCamera.FaceHandler += onFaceHandler;
-            _faceCamera.Start();
-            _faceCamera.PicBoxShotFace = realFace;//实时人脸
+            //this.startUp.Text = "停止";
+            ////设置人脸相机参数
+            //_faceCamera.PicBoxRealTime = realTime;//指定实时图像的图片框
+            //_faceCamera.FaceHandler += onFaceHandler;
+            //_faceCamera.Start();
+            //_faceCamera.PicBoxShotFace = realFace;//实时人脸
 
-            _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneFindSimiler;
+            //_faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneFindSimiler;
             
-            } else {
-                try
-                {
-                    _faceCamera.Stop();
-                    _faceCamera.Dispose();
-                }
-                catch
-                {
-                    Console.WriteLine("catch");
-                }
-                finally
-                {
-                    this.startUp.Text = "启动";
-                }
-            }
+            //} else {
+            //    try
+            //    {
+            //        _faceCamera.Stop();
+            //        _faceCamera.Dispose();
+            //    }
+            //    catch
+            //    {
+            //        Console.WriteLine("catch");
+            //    }
+            //    finally
+            //    {
+            //        this.startUp.Text = "启动";
+            //    }
+            //}
         }
     
         protected void onFaceHandler(FaceEvent e)
         {
             switch (e.type)
             {
+                case FaceEvent.EventType.ShotOne:
+                    onOne2NHandler(e);
+                    break;
                 case FaceEvent.EventType.HeadNodDetected:
                     onHeadNodShakeHandler(e);
                     break;
@@ -101,11 +104,36 @@ namespace My_Menu
                 default:
                     break;
             }
-            fevent = e;
         }
-        private int diantou = 0;
-        private int yaotou = 0;
-
+        protected void onOne2NHandler(FaceEvent e)
+        {
+            Action d = () =>
+            {
+                FaceInfo f = e.faceinfo;
+                if (f == null)
+                {
+                    this.pictureBox_shotface.Image = null;
+                    return;
+                }
+                if(f.userid != 0)
+                {
+                    _faceCamera.FaceCmd = FaceCamera.FaceCommand.NodShakeDetect;     //转换为检测角度模式
+                    Thread t = new Thread(() => speaker("您好，   付款请点头。    取消付款请摇头"));
+                    t.Start();
+                    UserInfo uinfo = UserInfo.Get(f.userid);
+                    stuinfo.Text = "姓名：" + uinfo.username +
+                    "\r学号：" + uinfo.usernumber +
+                    "\r性别：" + uinfo.gender +
+                    "\r账户余额：" + uinfo.money;
+                }
+                else
+                {
+                    //输出语音提示，您还没有注册账号
+                }
+                
+            };
+            this.BeginInvoke(d);
+        }
         protected void onHeadNodShakeHandler(FaceEvent e)
         {
             Action d = () =>
@@ -113,38 +141,23 @@ namespace My_Menu
                 if (e.type == FaceEvent.EventType.HeadNodDetected)
                 {
                     label_NodShakeDetectResult.Text = "点头";
-                    diantou++;
-                  
                 }
                 else if (e.type == FaceEvent.EventType.HeadShakeDetected)
                 {
                     label_NodShakeDetectResult.Text = "摇头";
-                    yaotou++;
                 }
-                if (yaotou >= 3)
-                {
+                
                     Thread t = new Thread(() => speaker("付款取消，欢迎下次光临"));
                     t.Start();
-                    yaotou = 0;
-                    _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneFindSimiler;
-                }
-                if(diantou >= 3)
-                {
-                    Thread t = new Thread(() => speaker("支付成功，欢迎下次光临"));
+                    _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneAndFind;
+                    t = new Thread(() => speaker("支付成功，欢迎下次光临"));
                     t.Start();
-                    diantou = 0;
-                    _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneFindSimiler;
-                }
+                    _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneAndFind;
                 System.Windows.Forms.Timer tim = new System.Windows.Forms.Timer(); 
             };
             this.BeginInvoke(d);
         }
   
-        private void brushFace_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            speak.Dispose();
-            MainMenu.f.Show();
-        }
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (((int)e.KeyChar < 48 || (int)e.KeyChar > 57) && (int)e.KeyChar != 8 && (int)e.KeyChar != 46)
@@ -186,23 +199,6 @@ namespace My_Menu
             }
         }
 
-        private void but_close_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _faceCamera.Stop();
-                _faceCamera.Dispose();
-            }
-            catch
-            {
-                Console.WriteLine("catch");
-            }
-            finally
-            {
-                this.Close();
-            }
-
-        } 
         private void realFace_Paint(object sender, PaintEventArgs e) //抓住人脸
         {
             if(startUp.Text == "启动")
@@ -256,6 +252,17 @@ namespace My_Menu
         private void speaker(string yuyin)
         {
             speak.Speak(yuyin);
+        }
+        private void but_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void brushFace_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _faceCamera.Close();
+            _faceCamera.FaceHandler -= onFaceHandler;
+            speak.Dispose();
+            MainMenu.Instance.Show();
         }
     }
   

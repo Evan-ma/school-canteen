@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace My_Menu
+namespace FaceSDK
 {
     public class FaceDetectSDK30
     {

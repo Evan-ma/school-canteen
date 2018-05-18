@@ -114,6 +114,7 @@
             this.Controls.Add(this.button1);
             this.Name = "MainMenu";
             this.Text = "主菜单";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainMenu_FormClosing);
             this.Load += new System.EventHandler(this.MainMenu_Load);
             this.ResumeLayout(false);
 

@@ -16,8 +16,8 @@ namespace DBLayer
 
         private SQLEngine()
         {
-            DBUrl = String.Format("Server={0}; Database={1}; Uid={2}; Pwd={3}; CharSet=utf8;",
-                DBHost, DBSchema, DBUsername, DBPassword);
+            DBUrl = String.Format("Server={0}; Uid={1}; Pwd={2}; CharSet=utf8;",
+                DBHost, DBUsername, DBPassword);
             Console.WriteLine("ConnectionString： " + DBUrl);
         }
 
@@ -30,12 +30,19 @@ namespace DBLayer
         {
             get
             {
-                if (connection == null)
+                try
                 {
-                    connection = new MySqlConnection(DBUrl);
-                    connection.Open();
+                    if (connection == null)
+                    {
+                        connection = new MySqlConnection(DBUrl);
+                        connection.Open();
+                    }
+                    return connection;
                 }
-                return connection;
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
         }
     }

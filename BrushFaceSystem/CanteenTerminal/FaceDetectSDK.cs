@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace My_Menu
+namespace FaceSDK
 {
     public class FaceDetectSDK : FaceDetectSDK30
     {
@@ -15,8 +15,12 @@ namespace My_Menu
 #else
         public const int LibVersion = 30;
 #endif
+
+        private static bool _isInitialized = false;
+
         public static int Init(int imgSize)
         {
+            if (_isInitialized) return 0;
             int ret;
             ret = FaceDetectSDK30.PFD_Init(imgSize);
             if (ret != 0)
@@ -31,10 +35,12 @@ namespace My_Menu
                 Console.WriteLine("EVAL_x64_Accuracy3.5.dll Init error!");
             }
 #endif
+            _isInitialized = true;
             return ret;
         }
         public static int Exit()
         {
+            if (!_isInitialized) return 0;
             int ret;
             ret = FaceDetectSDK30.PFD_Exit();
             if (ret != 0)
@@ -48,6 +54,7 @@ namespace My_Menu
                 Console.WriteLine("EVAL_x64_Accuracy3.5.dll Exit error!");
             }
 #endif
+            _isInitialized = false;
             return ret;
         }
 #if USE_LIB_35

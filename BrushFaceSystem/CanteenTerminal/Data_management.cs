@@ -30,7 +30,7 @@ namespace My_Menu
 
         private void button3_Click_1(object sender, EventArgs e)
         {
-            MainMenu.f.Show();
+            MainMenu.Instance.Show();
             this.Hide();
         }
     }

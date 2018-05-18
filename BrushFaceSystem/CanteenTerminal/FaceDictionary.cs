@@ -5,18 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace My_Menu
+namespace FaceSDK
 {
     /*********************************人脸字典类*******************************************/
     public class FaceDictionary : Dictionary<int, List<FaceData>>
     {
-        private FaceRecgnize _face;
+        private FaceCamera _Camera;
+        private FaceRecgnize _Face;
+        //private DataAccess _Data;
+        private Dictionary<int, string> _FaceNameDic;
+
         public int FaceCount { get; private set; }//获取人脸数据数量
 
-        public FaceDictionary(FaceRecgnize p) : base()
+        public FaceDictionary(FaceCamera camera, FaceRecgnize face/*, DataAccess data*/) : base()
         {
-            _face = p;
+            _Camera = camera;
+            _Face = face;
+            //_Data = data;
             FaceCount = 0;
+            _FaceNameDic = new Dictionary<int, string>();
         }
 
         /// <summary>
@@ -27,13 +34,17 @@ namespace My_Menu
         public void AddFace(int uid, FaceData f)
         {
             FaceData fd = new FaceData(f);
+            bool overide = false;
             if (this.ContainsKey(uid))
             {
                 //删除相同角度的脸
                 for (int i = 0; i < this[uid].Count; i++)
                 {
                     if (f.angleType == this[uid][i].angleType)
+                    {
                         this[uid].RemoveAt(i);
+                        overide = true;
+                    }
                 }
                 //添加新的脸
                 this[uid].Add(fd);
@@ -44,44 +55,111 @@ namespace My_Menu
                 fl.Add(fd);
                 this.Add(uid, fl);
             }
+            if(!overide) FaceCount++;
         }
-        /// <summary>
-        /// 从图片添加数据建立人脸数据。
-        /// </summary>
-        /// <param name="path"></param>
-        public void AddFaceFromImage(int uid, string path)
+        public void AddFace(int uid, FaceData f, string name)
         {
-            Bitmap bmp = (Bitmap)Image.FromFile(path);
-            List<FaceInfo> flist = _face.FaceRecg(bmp);
-            if (flist.Count == 1)
+            AddFace(uid, f);
+            AddNameDic(uid, name);
+        }
+        public Image GetUserImageById(int uid)
+        {
+            
+            if (_Camera.Data.DataSource == DataAccess.DataSrcType.FileSystem)
             {
-                flist[0].userid = uid;
-                flist[0].text = path;
-                AddFace(uid, flist[0]);
-                FaceCount++;
+                if (this.ContainsKey(uid))
+                    return Image.FromFile(this[uid][0].text);
+                else return null;
             }
-            bmp.Dispose();
-            flist.Clear();
+            else if (_Camera.Data.DataSource == DataAccess.DataSrcType.DataBase)
+                return _Camera.Data.GetFaceImage(uid);
+            else
+                return null;
         }
-        public List<FaceData> getFacesAt(int i)
+        public string GetUserName(int uid)
         {
-            return this.Values.ToList()[i];
+            if (_FaceNameDic.ContainsKey(uid)) return _FaceNameDic[uid];
+            else return string.Empty;
         }
-        public Image getUserImageAt(int i)
+        public int GetUserId(string name)
         {
-            return Image.FromFile(this.Values.ToList()[i][0].text);
+            foreach (var n in _FaceNameDic)
+            {
+                if (n.Value == name) return n.Key;
+            }
+            return 0;
         }
-        public Image getUserImageById(int uid)
+        public int GetNextUserId(string name)
         {
-            if (this.ContainsKey(uid))
-                return Image.FromFile(this[uid][0].text);
-            else return null;
+            int maxid = 0;
+            foreach (var n in _FaceNameDic)
+            {
+                if (n.Value == name) return n.Key;
+                if (n.Key > maxid) maxid = n.Key;
+            }
+            return ++maxid;
         }
-        public int UseridAt(int index)
+        public int AddNameDic(int uid, string name)
+        {
+            if (_FaceNameDic.ContainsKey(uid)) return 0;
+            _FaceNameDic.Add(uid, name);
+            return 1;
+        }
+        public int GetUseridAt(int index)
         {
             return this.Keys.ToList()[index];
         }
+        public List<FaceData> GetFacesAt(int i)
+        {
+            return this.Values.ToList()[i];
+        }
+        public FaceData GetFaceData(int fid)
+        {
+            foreach (var fl in this)
+            {
+                foreach (FaceData fd in fl.Value)
+                {
+                    if (fd.faceid == fid) return fd;
+                }
+            }
+            return null;
+        }
+        public Image GetUserImageAt(int i)
+        {
+            if (_Camera.Data.DataSource == DataAccess.DataSrcType.FileSystem)
+                return Image.FromFile(this.Values.ToList()[i][0].text);
+            else if (_Camera.Data.DataSource == DataAccess.DataSrcType.DataBase)
+                return _Camera.Data.GetFaceImage(this.Keys.ToList()[i]);
+            else
+                return null;
+        }
         public int UserCount { get { return this.Count; } }//字典中人数
+        public int DeleteUserInfo(int uid)
+        {
+            int ret = 0;
+            if (this.ContainsKey(uid)) this.Remove(uid);
+            if (_FaceNameDic.ContainsKey(uid)) {
+                _FaceNameDic.Remove(uid);
+                ret = 1;
+            }
+            if (_Camera.Data.DataSource == DataAccess.DataSrcType.DataBase)
+                ret = _Camera.Data.DeleteUserInfo(uid);
+            return ret;
+        }
+        public int DeleteAllFaces()
+        {
+            int c = _FaceNameDic.Count;
+            _FaceNameDic.Clear();
+            this.Clear();
+            if (_Camera.Data.DataSource == DataAccess.DataSrcType.DataBase)
+            {
+                int ret = _Camera.Data.DeleteAllFace();
+                if (ret < 0) c = ret;
+                ret = _Camera.Data.DeleteAllUser();
+                if (ret < 0) c = ret;
+            }
+            return c;
+        }
 
         /// <summary>
         /// 查找最相似的人脸。
@@ -98,7 +176,7 @@ namespace My_Menu
             {
                 foreach (FaceData fd in fl.Value)
                 {
-                    s = _face.FaceFeatureMatch(fi, fd);
+                    s = _Face.FaceFeatureMatch(fi, fd);
                     if (s > maxs)
                     {
                         maxs = s;
@@ -111,50 +189,7 @@ namespace My_Menu
             outfd = ofd;
             return uid;
         }
-        /// <summary>
-        /// 查找相同的人脸
-        /// </summary>
-        /// <param name="fi"></param>
-        /// <param name="score"></param>
-        /// <param name="outfd"></param>
-        /// <returns></returns>
-        public int FindSameFace(FaceInfo fi, out int score, out FaceData outfd)
-        {
-            if (fi == null)
-            {
-                score = 0;
-                outfd = null;
-                return 0;
-            }
-            int maxs = 0, s, uid = 0;
-            FaceData ofd = null;
-            foreach (var fl in this)
-            {
-                foreach (FaceData fd in fl.Value)
-                {
-                    s = _face.FaceFeatureMatch(fi, fd);
-                    if (s > maxs)
-                    {
-                        maxs = s;
-                        uid = fl.Key;
-                        ofd = fd;
-                    }
-                }
-            }
-            if (maxs >= _face.SameFaceThreshold)
-            {
-                score = maxs;
-                outfd = ofd;
-            }
-            else
-            {
-                score = 0;
-                outfd = null;
-                uid = 0;
-            }
-            return uid;
-        }
-        /// <summary>
+         /// <summary>
         /// 查找最相似的人脸。
         /// </summary>
         /// <param name="fi"></param>
@@ -177,7 +212,7 @@ namespace My_Menu
                         fd.angleType == FaceData.FaceAngleType.Left && fi.angleType == FaceData.FaceAngleType.Right ||
                         fd.angleType == FaceData.FaceAngleType.Right && fi.angleType == FaceData.FaceAngleType.Left)
                         continue;//角度相对情况下，跳过
-                    s = _face.FaceFeatureMatch(fi, fd);
+                    s = _Face.FaceFeatureMatch(fi, fd);
                     //Console.WriteLine(Path.GetFileNameWithoutExtension(fd.text) + ": " + s.ToString());
                     if (s > tops1)
                     {
@@ -202,6 +237,102 @@ namespace My_Menu
                 }
             }
             score = maxs;
+            return uid;
+        }
+        public int FindTopNSimilarFace(FaceInfo fi, int N, out int[] scores, out FaceInfo[] outfis)
+        {
+            if (N > this.FaceCount) N = this.FaceCount;
+            if (fi==null || N == 0)
+            {
+                scores = null;
+                outfis = null;
+                return -1;
+            }
+            int s,i;
+            scores = new int[N];
+            FaceData fd0;
+            FaceData[] outfds = new FaceData[N];
+            foreach (var fl in this)
+            {
+                foreach (FaceData fd in fl.Value)
+                {
+                    s = _Face.FaceFeatureMatch(fi, fd);
+                    if (s > scores[N - 1])
+                    {
+                        scores[N - 1] = s;
+                        outfds[N - 1] = fd;
+                    }
+                    else continue;
+
+                    for (i = N - 1; i > 0; i--)
+                    {
+                        if (scores[i] > scores[i - 1])
+                        {
+                            //交换分数
+                            s = scores[i];
+                            scores[i] = scores[i - 1];
+                            scores[i - 1] = s;
+                            //交换人脸数据
+                            fd0 = outfds[i];
+                            outfds[i] = outfds[i - 1];
+                            outfds[i - 1] = fd0;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            outfis = new FaceInfo[N];
+            for(i = 0; i < N; i++)
+            {
+                outfis[i] = new FaceInfo(outfds[i]);
+                outfis[i].FaceShotBmp = this.GetUserImageById(outfds[i].userid);
+            }
+            return N;
+        }
+        /// <summary>
+        /// 查找相同的人脸
+        /// </summary>
+        /// <param name="fi"></param>
+        /// <param name="score"></param>
+        /// <param name="outfd"></param>
+        /// <returns></returns>
+        public int FindSameFace(FaceInfo fi, out int score, out FaceData outfd)
+        {
+            if (fi == null)
+            {
+                score = 0;
+                outfd = null;
+                return 0;
+            }
+            int maxs = 0, s, uid = 0;
+            FaceData ofd = null;
+            foreach (var fl in this)
+            {
+                foreach (FaceData fd in fl.Value)
+                {
+                    s = _Face.FaceFeatureMatch(fi, fd);
+                    if (s > maxs)
+                    {
+                        maxs = s;
+                        uid = fl.Key;
+                        ofd = fd;
+                    }
+                }
+            }
+            if (maxs >= _Face.SameFaceThreshold)
+            {
+                score = maxs;
+                outfd = ofd;
+            }
+            else
+            {
+                score = 0;
+                outfd = null;
+                uid = 0;
+            }
             return uid;
         }
 

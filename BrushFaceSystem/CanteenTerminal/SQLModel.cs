@@ -4,9 +4,39 @@ using System.Collections.Generic;
 using System.Drawing;
 using My_Menu;
 using System.IO;
+using FaceSDK;
 
 namespace DBLayer
 {
+    class SQLModel
+    {
+        private const string DATABASE_NAME = "BrushFaceSystemDB";
+
+        public static bool InitDB()
+        {
+            try
+            {
+                if (SQLEngine.Instance.Connection == null) return false;
+
+                //创建数据库
+                string sqlstr = "CREATE DATABASE IF NOT EXISTS " + DATABASE_NAME + ";"
+                    + "use " + DATABASE_NAME + ";";
+                MySqlCommand cmd = new MySqlCommand(sqlstr, SQLEngine.Instance.Connection);
+                cmd.ExecuteNonQuery();
+                //创建表
+                FaceInfoBase.MakeTable();
+                UserInfo.MakeTable();
+                MoneyRecord.MakeTable();
+
+                return true;
+
+            }catch(Exception ex)
+            {
+                return false;
+            }
+            
+        }
+    }
     class User
     {
         public int uid;
@@ -212,7 +242,7 @@ namespace DBLayer
         #endregion
     }
 
-    class UserInfo
+    public class UserInfo
     {
         public static string table_name = "userinfotable";
         public int uid;
@@ -241,6 +271,18 @@ namespace DBLayer
         }
 
         public UserInfo() { }
+        public UserInfo (string usernumber, string username, int gender,
+            string phonenumber, string address, string node, double money)
+        {
+            uid = 0;
+            this.username = username;
+            this.usernumber = usernumber;
+            this.gender = gender;
+            this.phonenumber = phonenumber;
+            this.address = address;
+            this.node = node;
+            this.money = money;
+        }
         public UserInfo(int uid, string usernumber, string username, int gender,
             string phonenumber, string address, string node, double money)
         {
@@ -275,6 +317,11 @@ namespace DBLayer
             rs.Close();
             return userinfo;
         }
+        public static MySqlDataReader GetSqlReader()
+        {
+            return MySqlHelper.ExecuteReader(SQLEngine.Instance.Connection,
+                    "SELECT id,name FROM " + table_name);
+        }
 
         public static UserInfo Create(int uid, string usernumber, string username, int gender,
             string phonenumber, string address, string node, double money)
@@ -300,8 +347,24 @@ namespace DBLayer
                 return userinfo;
             }
         }
-
-        public void Save()
+        public bool Save()
+        {
+            string sql = String.Format("INSERT INTO {0}" +
+                "(uid, usernumber, username, gender, phonenumber, address, node, money)" +
+                " VALUES({1}, '{2}', '{3}', {4}, '{5}', '{6}', '{7}', {8});", table_name,
+                uid, usernumber, username, gender, phonenumber, address, node, money);
+            MySqlCommand cmd = new MySqlCommand(sql, SQLEngine.Instance.Connection);
+            if (cmd.ExecuteNonQuery() != 1)
+            {
+                Console.WriteLine("Error UPDATE model {0}", this);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        public void Update()
         {
             string sql = String.Format("UPDATE {0} SET usernumber = '{2}', username = '{3}', gender = {4}, " +
                 "phonenumber = '{5}', address = '{6}', node = '{7}', money = {8} WHERE uid = {1};"
@@ -368,7 +431,7 @@ namespace DBLayer
             u2.address = address;
             u2.node = node;
             u2.money = money;
-            u2.Save();
+            u2.Update();
             UserInfo u3 = UserInfo.Get(id);
             Console.WriteLine("u3: " + u3);
             if (!u3.IdenticalTo(u2)) Console.WriteLine("Save/Update Failed.");

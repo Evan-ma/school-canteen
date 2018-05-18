@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace My_Menu
+namespace FaceSDK
 {
     /*********************************人脸信息类*******************************************/
     public class FaceInfo : FaceData //一张人脸信息
     {
-        public int bestQualityValue = 1000; //跟踪使用：记录最佳图片质量
+        public int PictureQuality = 0; //跟踪使用：记录最佳图片质量
         public DateTime inTime; //人脸进入时间
         public DateTime procTime; //识别处理时间
         public DateTime shotTime;//抓拍的时间戳
@@ -18,6 +18,16 @@ namespace My_Menu
         public Image FullViewBmp;
         private FaceDetectSDK.PFD_DETECT_INFO info;
 
+        public FaceInfo() { }
+        public FaceInfo(FaceData fd)
+        {
+            this.faceid = fd.faceid;
+            this.userid = fd.userid;
+            this.feature = fd.feature;
+            this.featureLenth = fd.featureLenth;
+            this.angleType = fd.angleType;
+            this.text = fd.text;
+        }
         public void copyContent(FaceInfo f)
         {
             if (f == this) return;
@@ -25,7 +35,7 @@ namespace My_Menu
             feature = f.feature;
             angleType = f.angleType;
             text = f.text;
-            bestQualityValue = f.bestQualityValue;
+            PictureQuality = f.PictureQuality;
             //inTime = f.inTime;
             info = f.info;
             procTime = f.procTime;
@@ -98,6 +108,9 @@ namespace My_Menu
             info.gen = (short)f.gender;
             featureLenth = f.featureLenth;
             feature = f.feature;
+            FaceShotBmp = f.FaceShotBmp;
+            FullViewBmp = f.FullViewBmp;
+            PictureQuality = f.PictureQuality;
         }
         public void setAngleType()
         {
@@ -120,6 +133,14 @@ namespace My_Menu
             else if (pitchAngle < YawTh)
                 angleType = FaceAngleType.Down;
             else angleType = FaceAngleType.Unknown;
+        }
+        override public string ToString()
+        {
+            return "faceid=" + faceid.ToString()
+                + "\nLocation(" + posLeft + "," + posTop + "," + posRight + "," + posBottom + ")"
+                + "\nWidth=" + FaceWidth() + ",Hight=" + FaceHight()
+                + "\nPictureQuality=" + PictureQuality
+                + "\nprocTime=" + procTime.ToString();
         }
         public enum Gender { Mail, Femail }
     }

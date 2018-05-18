@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.realTime = new System.Windows.Forms.PictureBox();
-            this.realFace = new System.Windows.Forms.PictureBox();
-            this.stuFace = new System.Windows.Forms.PictureBox();
+            this.pictureBox_shotface = new System.Windows.Forms.PictureBox();
+            this.pictureBox_dicFace = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -44,8 +44,8 @@
             this.stuinfo = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.realTime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.realFace)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stuFace)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_shotface)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_dicFace)).BeginInit();
             this.SuspendLayout();
             // 
             // realTime
@@ -60,25 +60,24 @@
             this.realTime.TabIndex = 0;
             this.realTime.TabStop = false;
             // 
-            // realFace
+            // pictureBox_shotface
             // 
-            this.realFace.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.realFace.Location = new System.Drawing.Point(800, 78);
-            this.realFace.Name = "realFace";
-            this.realFace.Size = new System.Drawing.Size(226, 206);
-            this.realFace.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.realFace.TabIndex = 1;
-            this.realFace.TabStop = false;
-            this.realFace.Paint += new System.Windows.Forms.PaintEventHandler(this.realFace_Paint);
+            this.pictureBox_shotface.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_shotface.Location = new System.Drawing.Point(800, 78);
+            this.pictureBox_shotface.Name = "pictureBox_shotface";
+            this.pictureBox_shotface.Size = new System.Drawing.Size(226, 206);
+            this.pictureBox_shotface.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_shotface.TabIndex = 1;
+            this.pictureBox_shotface.TabStop = false;
             // 
-            // stuFace
+            // pictureBox_dicFace
             // 
-            this.stuFace.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.stuFace.Location = new System.Drawing.Point(1094, 78);
-            this.stuFace.Name = "stuFace";
-            this.stuFace.Size = new System.Drawing.Size(232, 206);
-            this.stuFace.TabIndex = 2;
-            this.stuFace.TabStop = false;
+            this.pictureBox_dicFace.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_dicFace.Location = new System.Drawing.Point(1094, 78);
+            this.pictureBox_dicFace.Name = "pictureBox_dicFace";
+            this.pictureBox_dicFace.Size = new System.Drawing.Size(232, 206);
+            this.pictureBox_dicFace.TabIndex = 2;
+            this.pictureBox_dicFace.TabStop = false;
             // 
             // label1
             // 
@@ -210,17 +209,17 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.stuFace);
-            this.Controls.Add(this.realFace);
+            this.Controls.Add(this.pictureBox_dicFace);
+            this.Controls.Add(this.pictureBox_shotface);
             this.Controls.Add(this.realTime);
             this.Name = "brushFace";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "brushFace";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.brushFace_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.brushFace_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.realTime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.realFace)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stuFace)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_shotface)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_dicFace)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,8 +228,8 @@
         #endregion
 
         private System.Windows.Forms.PictureBox realTime;
-        private System.Windows.Forms.PictureBox realFace;
-        private System.Windows.Forms.PictureBox stuFace;
+        private System.Windows.Forms.PictureBox pictureBox_shotface;
+        private System.Windows.Forms.PictureBox pictureBox_dicFace;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
