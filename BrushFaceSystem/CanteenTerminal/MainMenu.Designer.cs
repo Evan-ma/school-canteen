@@ -46,7 +46,7 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "刷脸支付";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.button_BrushFace_Click);
             // 
             // button2
             // 
@@ -57,6 +57,7 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "用户管理";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button_UserManagement_Click);
             // 
             // button3
             // 
@@ -67,7 +68,7 @@
             this.button3.TabIndex = 2;
             this.button3.Text = "余额充值";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.button_Recharge_Click);
             // 
             // button4
             // 
@@ -78,7 +79,7 @@
             this.button4.TabIndex = 3;
             this.button4.Text = "账目管理";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.button_AccountManagement_Click);
             // 
             // button5
             // 
@@ -89,7 +90,7 @@
             this.button5.TabIndex = 4;
             this.button5.Text = "数据管理";
             this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.Click += new System.EventHandler(this.button_DataManagement_Click);
             // 
             // button6
             // 
@@ -115,7 +116,6 @@
             this.Name = "MainMenu";
             this.Text = "主菜单";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainMenu_FormClosing);
-            this.Load += new System.EventHandler(this.MainMenu_Load);
             this.ResumeLayout(false);
 
         }

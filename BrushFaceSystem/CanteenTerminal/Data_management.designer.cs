@@ -1,6 +1,6 @@
 ﻿namespace My_Menu
 {
-    partial class Data_management
+    partial class DataManagement
     {
         /// <summary>
         /// 必需的设计器变量。

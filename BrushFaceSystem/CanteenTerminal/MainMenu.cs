@@ -41,38 +41,43 @@ namespace My_Menu
             camera.SpeechEnable = true;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button_BrushFace_Click(object sender, EventArgs e)
+        {
+            new BrushFace().Show();
+            this.Visible = false;
+        }
+        private void button_UserManagement_Click(object sender, EventArgs e)
+        {
+            new UserManagement().Show();
+            this.Visible = false;
+        }
+        private void button_Recharge_Click(object sender, EventArgs e)
         {
             new Recharge(this).Show();
             this.Hide();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button_AccountManagement_Click(object sender, EventArgs e)
         {
-            new Account_management().Show();
+            new AccountManagement().Show();
             this.Visible = false;
         }
 
-        private void MainMenu_Load(object sender, EventArgs e)
+        private void button_DataManagement_Click(object sender, EventArgs e)
         {
-
-        }
-        private void button5_Click(object sender, EventArgs e)
-        {
-            new Data_management().Show();
+            new DataManagement().Show();
             this.Visible = false;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            new brushFace().Show();
-            this.Visible = false;
-        }
+        
 
         private void MainMenu_FormClosing(object sender, FormClosingEventArgs e)
         {
             FaceCamera.Instance.Dispose();
+            System.Environment.Exit(0);
         }
+
+        
     }
 
    

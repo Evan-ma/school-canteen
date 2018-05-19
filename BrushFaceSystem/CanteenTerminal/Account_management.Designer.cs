@@ -1,6 +1,6 @@
 ﻿namespace My_Menu
 {
-    partial class Account_management
+    partial class AccountManagement
     {
         /// <summary>
         /// 必需的设计器变量。

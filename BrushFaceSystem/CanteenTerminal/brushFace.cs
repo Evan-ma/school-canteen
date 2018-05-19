@@ -17,17 +17,16 @@ using FaceSDK;
 
 namespace My_Menu
 {
-    public partial class brushFace : Form
+    public partial class BrushFace : Form
     {
         FaceCamera _faceCamera;
 
         List<FaceInfoBase> facelist_m = new List<FaceInfoBase>();
         List<FaceInfoBase> facelist_f = new List<FaceInfoBase>();
-        FaceEvent fevent = null;
         SpeechSynthesizer speak = new SpeechSynthesizer();
+        private int _lastFaceID;
 
-
-        public brushFace()
+        public BrushFace()
         {
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             InitializeComponent();
@@ -44,50 +43,10 @@ namespace My_Menu
             _faceCamera.PicBoxFoundPic = pictureBox_dicFace;
 
             _faceCamera.FaceHandler += onFaceHandler;
-            _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneAndFind;
             _faceCamera.Start();
+            _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneAndFind;
         }
 
-        private void Sqlcreate() //数据库初始化
-        {
-            FaceInfoBase.MakeTable();
-            UserInfo.MakeTable();
-            MoneyRecord.MakeTable();
-            facelist_m = FaceInfoBase.GetList(1);
-            facelist_f = FaceInfoBase.GetList(0);
-        }
-
-        private void startUp_Click(object sender, EventArgs e)
-        {
-            //if(this.startUp.Text != "停止")
-            //{          
- 
-            //this.startUp.Text = "停止";
-            ////设置人脸相机参数
-            //_faceCamera.PicBoxRealTime = realTime;//指定实时图像的图片框
-            //_faceCamera.FaceHandler += onFaceHandler;
-            //_faceCamera.Start();
-            //_faceCamera.PicBoxShotFace = realFace;//实时人脸
-
-            //_faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneFindSimiler;
-            
-            //} else {
-            //    try
-            //    {
-            //        _faceCamera.Stop();
-            //        _faceCamera.Dispose();
-            //    }
-            //    catch
-            //    {
-            //        Console.WriteLine("catch");
-            //    }
-            //    finally
-            //    {
-            //        this.startUp.Text = "启动";
-            //    }
-            //}
-        }
-    
         protected void onFaceHandler(FaceEvent e)
         {
             switch (e.type)
@@ -115,22 +74,29 @@ namespace My_Menu
                     this.pictureBox_shotface.Image = null;
                     return;
                 }
-                if(f.userid != 0)
+                if (_lastFaceID == e.faceinfo.faceid) return;
+                
+                if (f.userid != 0)
                 {
                     _faceCamera.FaceCmd = FaceCamera.FaceCommand.NodShakeDetect;     //转换为检测角度模式
-                    Thread t = new Thread(() => speaker("您好，   付款请点头。    取消付款请摇头"));
-                    t.Start();
+
                     UserInfo uinfo = UserInfo.Get(f.userid);
                     stuinfo.Text = "姓名：" + uinfo.username +
                     "\r学号：" + uinfo.usernumber +
                     "\r性别：" + uinfo.gender +
                     "\r账户余额：" + uinfo.money;
+                    _faceCamera.SetSpeakOrderedAsync("确认付款请点头，取消付款请摇头。");
                 }
                 else
                 {
                     //输出语音提示，您还没有注册账号
+                    _faceCamera.SetSpeakAsync("您尚未注册账号！");
                 }
-                
+                if (_lastFaceID != e.faceinfo.faceid)
+                {
+                    _lastFaceID = e.faceinfo.faceid;
+                }
+
             };
             this.BeginInvoke(d);
         }
@@ -140,20 +106,16 @@ namespace My_Menu
             {
                 if (e.type == FaceEvent.EventType.HeadNodDetected)
                 {
-                    label_NodShakeDetectResult.Text = "点头";
+                    label_NodShakeDetectResult.Text = "支付成功，祝您用餐愉快！";
+                    _faceCamera.SetSpeakAsync("支付成功，祝您用餐愉快！");
                 }
                 else if (e.type == FaceEvent.EventType.HeadShakeDetected)
                 {
-                    label_NodShakeDetectResult.Text = "摇头";
+                    label_NodShakeDetectResult.Text = "付款取消，欢迎下次光临！";
+                    _faceCamera.SetSpeakAsync("付款取消，欢迎下次光临！");
                 }
-                
-                    Thread t = new Thread(() => speaker("付款取消，欢迎下次光临"));
-                    t.Start();
-                    _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneAndFind;
-                    t = new Thread(() => speaker("支付成功，欢迎下次光临"));
-                    t.Start();
-                    _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneAndFind;
-                System.Windows.Forms.Timer tim = new System.Windows.Forms.Timer(); 
+
+                _faceCamera.FaceCmd = FaceCamera.FaceCommand.ShotOneAndFind;
             };
             this.BeginInvoke(d);
         }
@@ -199,69 +161,16 @@ namespace My_Menu
             }
         }
 
-        private void realFace_Paint(object sender, PaintEventArgs e) //抓住人脸
-        {
-            if(startUp.Text == "启动")
-            {
-                return;
-            }
-            Getuid(fevent);
-            _faceCamera.FaceCmd = FaceCamera.FaceCommand.NodShakeDetect;     //转换为检测角度模式
-            Thread t = new Thread(() => speaker("您好，   付款请点头。    取消付款请摇头"));
-            t.Start();
-        }
-        FaceRecgnize fr = new FaceRecgnize();
-        private void Getuid(FaceEvent e)
-        {
-            
-            FaceInfo f = e.faceinfo;
-            if (f.gender.ToString()=="男")
-            {
-                foreach(FaceInfoBase s in facelist_m)
-                {
-                    if (fr.FaceFeatureMatch(s.faceInfo, f)>=650)
-                    {
-                        Getinfo(s.uid);
-                    }
-                }
-            }
-            else
-            {
-                foreach (FaceInfoBase s in facelist_f)
-                {
-                    if (fr.FaceFeatureMatch(s.faceInfo, f) >= 650)
-                    {
-                        Getinfo(s.uid);
-                    }
-                }
-            }
-
-        }
-        UserInfo uinfo = new UserInfo();//获取数据库中信息
-        private void Getinfo(int? uid)
-        {
-            UserInfo.Get(uid.Value);
-            stuinfo.Text = "姓名："+ uinfo.username+
-                "\r学号：" +uinfo.usernumber+
-                "\r性别：" +uinfo.gender+
-                "\r账户余额："+uinfo.money;
-   
-        }
-
-
-        private void speaker(string yuyin)
-        {
-            speak.Speak(yuyin);
-        }
+        
         private void but_close_Click(object sender, EventArgs e)
         {
             this.Close();
         }
         private void brushFace_FormClosing(object sender, FormClosingEventArgs e)
         {
+            _faceCamera.CancelSpeak();
             _faceCamera.Close();
             _faceCamera.FaceHandler -= onFaceHandler;
-            speak.Dispose();
             MainMenu.Instance.Show();
         }
     }

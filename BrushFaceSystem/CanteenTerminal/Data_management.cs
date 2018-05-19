@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace My_Menu
 {
-    public partial class Data_management : Form
+    public partial class DataManagement : Form
     {
-        public Data_management()
+        public DataManagement()
         {
             InitializeComponent();
         }

@@ -780,7 +780,7 @@ namespace FaceSDK
             _FaceDic.AddFace(uid, fi, name);//添加到字典中
             return uid;
         }
-        private int AddUserFace(FaceInfo fi, UserInfo ui)
+        public int AddUserFace(FaceInfo fi, UserInfo ui)
         {
             if (fi == null) return 0;
             int uid = 0;
@@ -805,6 +805,27 @@ namespace FaceSDK
             _FaceDic.AddFace(uid, fi, ui.username);//添加到字典中
             return uid;
         }
+        public int AddUserFaces(FaceInfo[] fis, UserInfo ui)
+        {
+            if (fis == null) return 0;
+            if (ui == null) return 0;
+            int uid = 0;
+            int fid = 0;
+            int count = 0;
+            uid = ui.uid = _FaceDic.GetNextUserId(ui.username);
+            if (!ui.Save()) return 0;
+            foreach (FaceInfo fi in fis)
+            {
+                fid = InsertFaceInfoOverride(fi, uid);
+                if (fid <= 0) return fid;
+                fi.faceid = fid;
+                fi.userid = uid;
+                _FaceDic.AddFace(uid, fi, ui.username);//添加到字典中
+                count++;
+            }
+
+            return count;
+        }
         public void AddUserFaceAsync(FaceInfo fi, UserInfo ui)
         {
             Action a = () =>
@@ -813,6 +834,15 @@ namespace FaceSDK
             };
             a.BeginInvoke(null, null);
         }
+        public void AddUserFacesAsync(FaceInfo[] fis, UserInfo ui)
+        {
+            Action a = () =>
+            {
+                AddUserFaces(fis, ui);
+            };
+            a.BeginInvoke(null, null);
+        }
+
         /// <summary>
         /// 更新已登记的人脸图片。
         /// </summary>

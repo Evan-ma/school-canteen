@@ -1,6 +1,6 @@
 ﻿namespace My_Menu
 {
-    partial class brushFace
+    partial class BrushFace
     {
         /// <summary>
         /// Required designer variable.
@@ -36,7 +36,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.startUp = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.but_close = new System.Windows.Forms.Button();
@@ -122,21 +121,6 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "学生账户信息";
             // 
-            // startUp
-            // 
-            this.startUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.startUp.BackColor = System.Drawing.SystemColors.Control;
-            this.startUp.Cursor = System.Windows.Forms.Cursors.Default;
-            this.startUp.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.startUp.Location = new System.Drawing.Point(528, 570);
-            this.startUp.MaximumSize = new System.Drawing.Size(84, 33);
-            this.startUp.Name = "startUp";
-            this.startUp.Size = new System.Drawing.Size(84, 33);
-            this.startUp.TabIndex = 7;
-            this.startUp.Text = "启动";
-            this.startUp.UseVisualStyleBackColor = false;
-            this.startUp.Click += new System.EventHandler(this.startUp_Click);
-            // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -204,7 +188,6 @@
             this.Controls.Add(this.but_close);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.startUp);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -234,7 +217,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button startUp;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button but_close;

@@ -5,6 +5,7 @@ using System.Drawing;
 using My_Menu;
 using System.IO;
 using FaceSDK;
+using System.Data;
 
 namespace DBLayer
 {
@@ -320,7 +321,12 @@ namespace DBLayer
         public static MySqlDataReader GetSqlReader()
         {
             return MySqlHelper.ExecuteReader(SQLEngine.Instance.Connection,
-                    "SELECT id,name FROM " + table_name);
+                    "SELECT uid,username FROM " + table_name);
+        }
+        public static DataSet GetAll()
+        {
+            return MySqlHelper.ExecuteDataset(SQLEngine.Instance.Connection,
+                "select * from " + table_name);
         }
 
         public static UserInfo Create(int uid, string usernumber, string username, int gender,

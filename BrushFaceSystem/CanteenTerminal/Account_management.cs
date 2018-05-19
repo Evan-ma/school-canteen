@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace My_Menu
 {
-    public partial class Account_management : Form
+    public partial class AccountManagement : Form
     {
        
-        public Account_management()
+        public AccountManagement()
         {
             InitializeComponent();
         }

@@ -74,11 +74,7 @@ namespace FaceSDK
             }
             get { return _SpeechEnable; }
         }
-        private static FaceCamera _Instance;
-        public static FaceCamera Instance
-        {
-            get { return _Instance ?? (_Instance = new FaceCamera()); }
-        }
+        public static FaceCamera Instance { get; private set; }
 
         /***************************私有变量*****************************/
         private VideoCapture _Capture;
@@ -97,7 +93,7 @@ namespace FaceSDK
             isInitialized = false;
             isOpened = false;
             isStarted = false;
-            _Instance = this;
+            Instance = this;
         }
         /// <summary>
         /// 初始化函数。开始之前需要先初始化。
@@ -414,6 +410,25 @@ namespace FaceSDK
                 onFaceShotAndFind(null, etype);
         }
 
+        public void SetSpeakAsync(string text)
+        {
+            if (_Speech != null)
+            {
+                _Speech.SpeakAsyncCancelAll();
+                _Speech.SpeakAsync(text);
+            }
+        }
+        public void SetSpeakOrderedAsync(string text)
+        {
+            if (_Speech != null)
+            {
+                _Speech.SpeakAsync(text);
+            }
+        }
+        public void CancelSpeak()
+        {
+            _Speech.SpeakAsyncCancelAll();
+        }
 
         /***************************内部视频线程*****************************/
         private void ProcessFrame(object sender, EventArgs arg)
