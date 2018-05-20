@@ -30,6 +30,7 @@
         {
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.button_Add = new System.Windows.Forms.Button();
+            this.button_back = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,11 +53,22 @@
             this.button_Add.UseVisualStyleBackColor = true;
             this.button_Add.Click += new System.EventHandler(this.button_Add_Click);
             // 
+            // button_back
+            // 
+            this.button_back.Location = new System.Drawing.Point(39, 12);
+            this.button_back.Name = "button_back";
+            this.button_back.Size = new System.Drawing.Size(75, 43);
+            this.button_back.TabIndex = 2;
+            this.button_back.Text = "返回";
+            this.button_back.UseVisualStyleBackColor = true;
+            this.button_back.Click += new System.EventHandler(this.button_back_Click);
+            // 
             // UserManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1053, 617);
+            this.Controls.Add(this.button_back);
             this.Controls.Add(this.button_Add);
             this.Controls.Add(this.dataGridView);
             this.Name = "UserManagement";
@@ -71,5 +83,6 @@
 
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Button button_Add;
+        private System.Windows.Forms.Button button_back;
     }
 }

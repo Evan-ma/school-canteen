@@ -225,7 +225,7 @@
             // 
             this.button_save.Location = new System.Drawing.Point(474, 628);
             this.button_save.Name = "button_save";
-            this.button_save.Size = new System.Drawing.Size(75, 23);
+            this.button_save.Size = new System.Drawing.Size(75, 29);
             this.button_save.TabIndex = 5;
             this.button_save.Text = "保存";
             this.button_save.UseVisualStyleBackColor = true;
@@ -235,7 +235,7 @@
             // 
             this.button_cancel.Location = new System.Drawing.Point(378, 628);
             this.button_cancel.Name = "button_cancel";
-            this.button_cancel.Size = new System.Drawing.Size(75, 23);
+            this.button_cancel.Size = new System.Drawing.Size(75, 29);
             this.button_cancel.TabIndex = 6;
             this.button_cancel.Text = "取消";
             this.button_cancel.UseVisualStyleBackColor = true;
@@ -243,9 +243,9 @@
             // 
             // button_collect
             // 
-            this.button_collect.Location = new System.Drawing.Point(228, 148);
+            this.button_collect.Location = new System.Drawing.Point(228, 143);
             this.button_collect.Name = "button_collect";
-            this.button_collect.Size = new System.Drawing.Size(142, 23);
+            this.button_collect.Size = new System.Drawing.Size(142, 28);
             this.button_collect.TabIndex = 7;
             this.button_collect.Text = "开始采集人脸信息";
             this.button_collect.UseVisualStyleBackColor = true;

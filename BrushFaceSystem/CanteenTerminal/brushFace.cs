@@ -39,7 +39,7 @@ namespace My_Menu
             }
             //设置人脸相机参数
             _faceCamera.PicBoxRealTime = realTime;//指定实时图像的图片框
-            _faceCamera.PicBoxShotFace = pictureBox_shotface;//实时人脸
+            _faceCamera.PicBoxShotFace = null;//实时人脸
             _faceCamera.PicBoxFoundPic = pictureBox_dicFace;
 
             _faceCamera.FaceHandler += onFaceHandler;
@@ -71,7 +71,7 @@ namespace My_Menu
                 FaceInfo f = e.faceinfo;
                 if (f == null)
                 {
-                    this.pictureBox_shotface.Image = null;
+                    pictureBox_dicFace.Image = null;
                     return;
                 }
                 if (_lastFaceID == e.faceinfo.faceid) return;
@@ -81,10 +81,13 @@ namespace My_Menu
                     _faceCamera.FaceCmd = FaceCamera.FaceCommand.NodShakeDetect;     //转换为检测角度模式
 
                     UserInfo uinfo = UserInfo.Get(f.userid);
-                    stuinfo.Text = "姓名：" + uinfo.username +
-                    "\r学号：" + uinfo.usernumber +
-                    "\r性别：" + uinfo.gender +
-                    "\r账户余额：" + uinfo.money;
+                    label_userinfo.Text = 
+                    "账号：" + uinfo.usernumber +
+                    "\n姓名：" + uinfo.username +
+                    "\n性别：" + (uinfo.gender==0?"男":"女") ;
+                    textBox_balance.Text = string.Format("{0}", uinfo.money);
+                    textBox_payment.Text = string.Format("{0}",10);
+                    textBox_balanceRemain.Text = "";
                     _faceCamera.SetSpeakOrderedAsync("确认付款请点头，取消付款请摇头。");
                 }
                 else
@@ -106,12 +109,12 @@ namespace My_Menu
             {
                 if (e.type == FaceEvent.EventType.HeadNodDetected)
                 {
-                    label_NodShakeDetectResult.Text = "支付成功，祝您用餐愉快！";
+                    label_DetectResultHint.Text = "支付成功，祝您用餐愉快！";
                     _faceCamera.SetSpeakAsync("支付成功，祝您用餐愉快！");
                 }
                 else if (e.type == FaceEvent.EventType.HeadShakeDetected)
                 {
-                    label_NodShakeDetectResult.Text = "付款取消，欢迎下次光临！";
+                    label_DetectResultHint.Text = "付款取消，欢迎下次光临！";
                     _faceCamera.SetSpeakAsync("付款取消，欢迎下次光临！");
                 }
 
@@ -126,7 +129,7 @@ namespace My_Menu
                 e.Handled = true;
             try
             {
-                string[] a = textBox1.Text.Split('.');
+                string[] a = textBox_payment.Text.Split('.');
                 if (a[1] != "")
                 {
                     int s = int.Parse(a[1]);
@@ -140,15 +143,15 @@ namespace My_Menu
             {  //小数点的处理。
                 if ((int)e.KeyChar == 46)//小数点
                 {
-                    if (textBox1.Text.Length <= 0)
+                    if (textBox_payment.Text.Length <= 0)
                         e.Handled = true;//小数点不能在第一位
                     else
                     {
                         float f;
                         float oldf;
                         bool b1 = false, b2 = false;
-                        b1 = float.TryParse(textBox1.Text, out oldf);
-                        b2 = float.TryParse(textBox1.Text + e.KeyChar.ToString(), out f);
+                        b1 = float.TryParse(textBox_payment.Text, out oldf);
+                        b2 = float.TryParse(textBox_payment.Text + e.KeyChar.ToString(), out f);
                         if (b2 == false)
                         {
                             if (b1 == true)
