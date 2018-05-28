@@ -109,8 +109,10 @@ namespace My_Menu
             {
                 if (e.type == FaceEvent.EventType.HeadNodDetected)
                 {
+                    MoneyRecord.Create(_lastFaceID,-10,DateTime.Now);
                     label_DetectResultHint.Text = "支付成功，祝您用餐愉快！";
                     _faceCamera.SetSpeakAsync("支付成功，祝您用餐愉快！");
+                    textBox_balance.Text = (int.Parse(textBox_balance.Text) - 10).ToString();
                 }
                 else if (e.type == FaceEvent.EventType.HeadShakeDetected)
                 {

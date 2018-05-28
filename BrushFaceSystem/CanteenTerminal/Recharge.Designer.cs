@@ -39,6 +39,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.xingming = new System.Windows.Forms.Label();
+            this.shoujihao = new System.Windows.Forms.Label();
+            this.yue = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -46,25 +49,29 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(65, 92);
+            this.pictureBox1.Location = new System.Drawing.Point(32, 92);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(334, 363);
+            this.pictureBox1.Size = new System.Drawing.Size(405, 376);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox2.Location = new System.Drawing.Point(479, 92);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(123, 132);
+            this.pictureBox2.Size = new System.Drawing.Size(128, 132);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             // 
             // pictureBox3
             // 
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox3.Location = new System.Drawing.Point(684, 92);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(123, 132);
+            this.pictureBox3.Size = new System.Drawing.Size(130, 132);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 2;
             this.pictureBox3.TabStop = false;
             // 
@@ -122,6 +129,7 @@
             this.button2.TabIndex = 8;
             this.button2.Text = "确认";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // textBox1
             // 
@@ -129,8 +137,11 @@
             this.textBox1.Location = new System.Drawing.Point(336, 517);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
+            this.textBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.textBox1.Size = new System.Drawing.Size(143, 47);
             this.textBox1.TabIndex = 9;
+            this.textBox1.Text = "100";
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // label5
             // 
@@ -141,11 +152,44 @@
             this.label5.TabIndex = 10;
             this.label5.Text = "VS";
             // 
+            // xingming
+            // 
+            this.xingming.AutoSize = true;
+            this.xingming.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.xingming.Location = new System.Drawing.Point(596, 263);
+            this.xingming.Name = "xingming";
+            this.xingming.Size = new System.Drawing.Size(134, 33);
+            this.xingming.TabIndex = 12;
+            this.xingming.Text = "       ";
+            // 
+            // shoujihao
+            // 
+            this.shoujihao.AutoSize = true;
+            this.shoujihao.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.shoujihao.Location = new System.Drawing.Point(596, 342);
+            this.shoujihao.Name = "shoujihao";
+            this.shoujihao.Size = new System.Drawing.Size(117, 33);
+            this.shoujihao.TabIndex = 13;
+            this.shoujihao.Text = "      ";
+            // 
+            // yue
+            // 
+            this.yue.AutoSize = true;
+            this.yue.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.yue.Location = new System.Drawing.Point(596, 418);
+            this.yue.Name = "yue";
+            this.yue.Size = new System.Drawing.Size(185, 33);
+            this.yue.TabIndex = 14;
+            this.yue.Text = "          ";
+            // 
             // Recharge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(836, 611);
+            this.Controls.Add(this.yue);
+            this.Controls.Add(this.shoujihao);
+            this.Controls.Add(this.xingming);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button2);
@@ -158,7 +202,9 @@
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Recharge";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "S";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Recharge_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -180,5 +226,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label xingming;
+        private System.Windows.Forms.Label shoujihao;
+        private System.Windows.Forms.Label yue;
     }
 }

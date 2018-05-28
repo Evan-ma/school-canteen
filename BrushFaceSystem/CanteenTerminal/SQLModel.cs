@@ -64,10 +64,10 @@ namespace DBLayer
             return userinfo ?? (userinfo = UserInfo.Get(uid));
         }
 
-        public MoneyRecord[] GetMoneyRecordo()
-        {
-            return moneyrecords ?? (moneyrecords = MoneyRecord.FindByUid(uid));
-        }
+        //public MoneyRecord[] GetMoneyRecordo()
+        //{
+        //    //return moneyrecords ?? (moneyrecords = MoneyRecord.FindByUid(uid));
+        //}
 
         #region IntegrateTest
         public static void Test()
@@ -297,6 +297,21 @@ namespace DBLayer
             this.money = money;
         }
 
+        public static int Getuid(string usernumber)
+        {
+            int m = -1; 
+            string sql = String.Format("SELECT uid FROM {0} WHERE usernumber = {1};", table_name, usernumber);
+            MySqlCommand cmd = new MySqlCommand(sql, SQLEngine.Instance.Connection);
+            MySqlDataReader rs = cmd.ExecuteReader();
+            if (rs.Read())
+            {
+                m = rs.GetInt32("uid");
+            }
+            rs.Close();
+                return m;
+        }
+
+
         public static UserInfo Get(int uid)
         {
             UserInfo userinfo = null;
@@ -455,9 +470,11 @@ namespace DBLayer
     {
         private static string table_name = "moneyrecordtable";
         private int? recordid;
-        private int uid;
-        private int changedmoney;
-        private DateTime changetime;
+        public int uid;
+        public int changedmoney;
+        public DateTime changetime;
+        public string username;
+        public string usernumber;
 
         public static void MakeTable()
         {
@@ -472,23 +489,19 @@ namespace DBLayer
         }
 
         public MoneyRecord() { }
-        public MoneyRecord(int uid, int changedmoney, DateTime changetime)
+        public MoneyRecord(int uid, int changedmoney, DateTime changetime, string username , string usernumber)
         {
             this.recordid = null;
             this.uid = uid;
             this.changedmoney = changedmoney;
             this.changetime = changetime;
+            this.username = username;
+            this.usernumber = usernumber;
         }
 
-        public static MoneyRecord Get(int recordid)
+        public static List<MoneyRecord> Getall()
         {
-            Console.WriteLine("这个接口可能没意义，暂时不实现");
-            return null;
-        }
-
-        public static MoneyRecord[] FindByUid(int uid)
-        {
-            string sql = String.Format("SELECT * FROM {0} WHERE uid = {1};", table_name, uid);
+            string sql = String.Format("SELECT moneyrecordtable.recordid,moneyrecordtable.uid,moneyrecordtable.changedmoney,moneyrecordtable.changetime,userinfotable.username,userinfotable.usernumber FROM {0} left join userinfotable on moneyrecordtable.uid =userinfotable.uid where  userinfotable.username is not null;", table_name);//左连接
             MySqlCommand cmd = new MySqlCommand(sql, SQLEngine.Instance.Connection);
             MySqlDataReader rs = cmd.ExecuteReader();
             List<MoneyRecord> moneyrecords = new List<MoneyRecord>();
@@ -497,24 +510,69 @@ namespace DBLayer
                 MoneyRecord moneyrecord = new MoneyRecord(
                     rs.GetInt32("uid"),
                     rs.GetInt32("changedmoney"),
-                    rs.GetDateTime("changetime"));
+                    rs.GetDateTime("changetime"),
+                    rs.GetString("username"),
+                    rs.GetString("usernumber"));
                 moneyrecord.recordid = rs.GetInt32("recordid");
                 moneyrecords.Add(moneyrecord);
             }
             rs.Close();
-            return moneyrecords.ToArray();
+            return moneyrecords;
+        }
+
+        public static List<MoneyRecord> FindByUid(int uid)
+        {
+            if (uid <= 0)
+            {
+                return null;
+            }
+            string sql = String.Format("SELECT moneyrecordtable.recordid,moneyrecordtable.uid,moneyrecordtable.changedmoney,moneyrecordtable.changetime,userinfotable.username,userinfotable.usernumber  FROM {0} left join userinfotable on moneyrecordtable.uid =userinfotable.uid WHERE userinfotable.uid = {1};", table_name, uid);
+            MySqlCommand cmd = new MySqlCommand(sql, SQLEngine.Instance.Connection);
+            MySqlDataReader rs = cmd.ExecuteReader();
+            List<MoneyRecord> moneyrecords = new List<MoneyRecord>();
+            while (rs.Read())
+            {
+                MoneyRecord moneyrecord = new MoneyRecord(
+                    rs.GetInt32("uid"),
+                    rs.GetInt32("changedmoney"),
+                    rs.GetDateTime("changetime"),
+                    rs.GetString("username"),
+                    rs.GetString("usernumber"));
+                moneyrecord.recordid = rs.GetInt32("recordid");
+                moneyrecords.Add(moneyrecord);
+            }
+            rs.Close();
+            return moneyrecords;
         }
 
         public static MoneyRecord Create(int uid, int changedmoney, DateTime changetime)
         {
-            MoneyRecord moneyrecord = new MoneyRecord(uid, changedmoney, changetime);
+            MoneyRecord moneyrecord = new MoneyRecord(uid, changedmoney, changetime,null,null);
 
-            string sql = String.Format("INSERT INTO {0}" +
+            string sql = String.Format("select (case when money >= {0} then 1 when money < {0} THEN 0  else '-1'end) from userinfotable where uid = '{1}';",-changedmoney,uid);
+            //new MySqlCommand(sql, SQLEngine.Instance.Connection);
+            MySqlCommand cmd0 = new MySqlCommand(sql, SQLEngine.Instance.Connection);
+            MySqlDataReader rs = cmd0.ExecuteReader();
+            while (rs.Read())
+            {
+                switch (rs.GetInt32(0))
+                {
+                    case 0: Console.WriteLine("余额不足"); return null;  break;
+                    case -1: Console.WriteLine("错误"); return null; break;
+                    case 1: Console.WriteLine("余额不足"); break;
+                }  ;
+            }
+            rs.Close();
+
+             sql = String.Format("update userinfotable set money = money+{0} where uid = '{1}'; ",changedmoney,uid);
+            MySqlCommand cmd1 = new MySqlCommand(sql, SQLEngine.Instance.Connection);
+            cmd1.ExecuteNonQuery();
+            sql = String.Format("INSERT INTO {0}" +
                 "(uid, changedmoney, changetime)" +
-                " VALUES({1}, {2}, '{3}');", table_name,
-                uid, changedmoney, changetime);
+                " VALUES({1}, {2}, NOW());", table_name,
+                uid, changedmoney);
             MySqlCommand cmd = new MySqlCommand(sql, SQLEngine.Instance.Connection);
-            if (cmd.ExecuteNonQuery() != 1)
+            if (cmd.ExecuteNonQuery() != 1 && cmd1.ExecuteNonQuery() != 1)
             {
                 Console.WriteLine("Error UPDATE model {0}", moneyrecord);
                 return null;

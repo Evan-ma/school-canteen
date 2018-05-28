@@ -70,7 +70,7 @@
             // 
             this.pictureBox_dicFace.Location = new System.Drawing.Point(18, 68);
             this.pictureBox_dicFace.Name = "pictureBox_dicFace";
-            this.pictureBox_dicFace.Size = new System.Drawing.Size(241, 206);
+            this.pictureBox_dicFace.Size = new System.Drawing.Size(240, 209);
             this.pictureBox_dicFace.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox_dicFace.TabIndex = 2;
             this.pictureBox_dicFace.TabStop = false;

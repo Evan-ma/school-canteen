@@ -16,7 +16,14 @@ namespace My_Menu
         public DataManagement()
         {
             InitializeComponent();
+
         }
+
+        private void freshdata()
+        {
+
+        }
+
 
         private void label1_Click(object sender, EventArgs e)
         {

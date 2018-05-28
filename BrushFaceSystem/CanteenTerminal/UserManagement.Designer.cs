@@ -72,6 +72,7 @@
             this.Controls.Add(this.button_Add);
             this.Controls.Add(this.dataGridView);
             this.Name = "UserManagement";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "用户管理";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UserManagement_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();

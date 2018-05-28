@@ -53,8 +53,9 @@ namespace My_Menu
         }
         private void button_Recharge_Click(object sender, EventArgs e)
         {
-            new Recharge(this).Show();
-            this.Hide();
+            new Recharge().Show();
+            this.Visible = false;
+           // this.Hide();
         }
 
         private void button_AccountManagement_Click(object sender, EventArgs e)

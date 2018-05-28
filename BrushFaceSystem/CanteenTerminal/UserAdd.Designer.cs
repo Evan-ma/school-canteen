@@ -274,6 +274,7 @@
             this.Controls.Add(this.textBox_name);
             this.Controls.Add(this.pictureBox_rt);
             this.Name = "UserAdd";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UserAdd";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UserAdd_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_rt)).EndInit();

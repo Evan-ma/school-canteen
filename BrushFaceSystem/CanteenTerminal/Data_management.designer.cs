@@ -43,7 +43,7 @@
             this.label1.Font = new System.Drawing.Font("宋体", 40F);
             this.label1.Location = new System.Drawing.Point(492, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(297, 67);
+            this.label1.Size = new System.Drawing.Size(239, 54);
             this.label1.TabIndex = 0;
             this.label1.Text = "数据管理";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -94,7 +94,7 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
-            // Data_management
+            // DataManagement
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1262, 913);
@@ -104,7 +104,8 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Data_management";
+            this.Name = "DataManagement";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
